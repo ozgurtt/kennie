@@ -1,0 +1,44 @@
+{"frames": {
+
+"default":
+{
+	"frame": {"x":2,"y":2,"w":43,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":28},
+	"sourceSize": {"w":43,"h":28}
+},
+"dead":
+{
+	"frame": {"x":137,"y":2,"w":54,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":8},
+	"sourceSize": {"w":54,"h":8}
+},
+"moveLeft":
+{
+	"frame": {"x":47,"y":2,"w":43,"h":26},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":26},
+	"sourceSize": {"w":43,"h":26}
+},
+"moveRight":
+{
+	"frame": {"x":92,"y":2,"w":43,"h":26},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":26},
+	"sourceSize": {"w":43,"h":26}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "slimeTileset.png",
+	"format": "RGBA8888",
+	"size": {"w":193,"h":32},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b41c2db2f0ac512286b4e9e2170ea01e:18f44c94c7510c48c23bb0a36712ef16:1d6f931a0bebc1eceaa6d9e8fb359c80$"
+}
+}

@@ -1,0 +1,52 @@
+{"frames": {
+
+"flyDead":
+{
+	"frame": {"x":2,"y":2,"w":69,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":32},
+	"sourceSize": {"w":69,"h":32}
+},
+"flyRight1":
+{
+	"frame": {"x":73,"y":2,"w":69,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":32},
+	"sourceSize": {"w":69,"h":32}
+},
+"flyLeft2":
+{
+	"frame": {"x":215,"y":2,"w":69,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":31},
+	"sourceSize": {"w":69,"h":31}
+},
+"flyLeft1":
+{
+	"frame": {"x":144,"y":2,"w":69,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":32},
+	"sourceSize": {"w":69,"h":32}
+},
+"flyRight2":
+{
+	"frame": {"x":286,"y":2,"w":69,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":31},
+	"sourceSize": {"w":69,"h":31}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "flyTileset.png",
+	"format": "RGBA8888",
+	"size": {"w":357,"h":36},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:21c7640c38c9ad136f55215fdabe30fd:35c65f600edd8fdd5fbbe45d7bfa77e9:3e8a8bf280d3756c6cb9f162dfd6a098$"
+}
+}
