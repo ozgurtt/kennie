@@ -89813,11 +89813,11 @@ var state = {
 
     preload: function() {
         game.stage.backgroundColor = '#80E0ED'
-        game.load.image('ground', '../assets/ground.png');
-        game.load.image('coinGold', '../assets/coinGold.png');
-        game.load.atlasJSONHash('slime', '../assets/slime.png', '../assets/slime.json');
-        game.load.atlasJSONHash('hero', '../assets/hero.png', '../assets/hero.json');
-        game.load.atlasJSONHash('fly', '../assets/fly.png', '../assets/fly.json');
+        game.load.image('ground', 'assets/ground.png');
+        game.load.image('coinGold', 'assets/coinGold.png');
+        game.load.atlasJSONHash('slime', 'assets/slime.png', 'assets/slime.json');
+        game.load.atlasJSONHash('hero', 'assets/hero.png', 'assets/hero.json');
+        game.load.atlasJSONHash('fly', 'assets/fly.png', 'assets/fly.json');
     },
     create: function(){
         this.initWorld();
