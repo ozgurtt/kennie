@@ -1,20 +1,12 @@
 {"frames": {
 
-"default":
-{
-	"frame": {"x":2,"y":2,"w":43,"h":28},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":28},
-	"sourceSize": {"w":43,"h":28}
-},
 "dead":
 {
-	"frame": {"x":137,"y":2,"w":54,"h":5},
+	"frame": {"x":2,"y":2,"w":43,"h":26},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":5},
-	"sourceSize": {"w":54,"h":5}
+	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":26},
+	"sourceSize": {"w":43,"h":26}
 },
 "moveLeft":
 {
@@ -22,7 +14,7 @@
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":26},
-	"sourceSize": {"w":43,"h":16}
+	"sourceSize": {"w":43,"h":26}
 },
 "moveRight":
 {
@@ -35,10 +27,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "slimeTileset.png",
+	"image": "slime.png",
 	"format": "RGBA8888",
-	"size": {"w":193,"h":32},
+	"size": {"w":137,"h":30},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b41c2db2f0ac512286b4e9e2170ea01e:18f44c94c7510c48c23bb0a36712ef16:1d6f931a0bebc1eceaa6d9e8fb359c80$"
+	"smartupdate": "$TexturePacker:SmartUpdate:77a8ee8252c3aaaabb1bd9a17ab87142:c1b58a298967d32688cfd419d00ef744:5969a7bd39dc609f49b3bb3f3e71107a$"
 }
 }
