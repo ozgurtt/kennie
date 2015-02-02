@@ -89598,38 +89598,35 @@ Phaser.Physics.P2.RevoluteConstraint.prototype.constructor = Phaser.Physics.P2.R
  */
 
 var state = {
-    platforms: null,
+    collisionLayer: null,
+    propLayer: null,
     coins: null,
     player: null,
     slimes: null,
     flies: null,
     cursors: null,
     scoreText: null,
+    liquids: null,
     score: 0,
     updateCounter: 0,
 
     initWorld: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.world.setBounds(0, 0, 5000, 940);
+        game.world.setBounds(0, 0, 7000, 700);
 
-        platforms = game.add.group();
-        platforms.enableBody = true;
+        map = game.add.tilemap('level1');
+        map.addTilesetImage('levelTileset');
+        map.setCollisionByExclusion([0]);
+        collisionLayer = map.createLayer('activeLayer');
+        propLayer = map.createLayer('propLayer')
+        collisionLayer.resizeWorld();
 
-        var ground = platforms.create(0, game.world.height - 64, 'ground');
-        ground.scale.setTo(100, 2);
-        ground.body.immovable = true;
+        liquids = game.add.group();
+        liquids.enableBody = true;
 
-        var ledge = platforms.create(500, game.world.height - 250, 'ground');
-        ledge.scale.setTo(10, 1);
-        ledge.body.immovable = true;
-
-        ledge = platforms.create(-150, game.world.height - 450, 'ground');
-        ledge.scale.setTo(7,1);
-        ledge.body.immovable = true;
-
-        ledge = platforms.create(1300, game.world.height - 500, 'ground');
-        ledge.scale.setTo(13,1);
-        ledge.body.immovable = true;
+        var lava = liquids.create(3292, game.world.height - 170, 'lava');
+        lava.scale.setTo(4, 4);
+        lava.body.immovable = true;
     },
 
     initCoins: function() {
@@ -89646,7 +89643,7 @@ var state = {
     },
 
     initPlayer: function() {
-        player = game.add.sprite(32, game.world.height - 160, 'hero', 'front');
+        player = game.add.sprite(32, game.world.height - 260, 'hero', 'front');
         game.physics.arcade.enable(player);
         player.body.bounce.y = 0.0;
         player.body.gravity.y = 600;
@@ -89669,11 +89666,10 @@ var state = {
 
         var slime;
         for (i = 0; i < 20; i += 1) {
-            slime = slimes.create(i * 300 + Math.random() * 200, game.world.height - 500, 'slime');
+            slime = slimes.create(i * 300 + Math.random() * 200, 0, 'slime');
             slime.body.gravity.y = 300;
             slime.body.bounce.y = 0;
             slime.body.collideWorldBounds = true;
-            slime.animations.add('default', ['default'], 1, true);
             slime.animations.add('moveLeft', ['moveLeft'], 1, true);
             slime.animations.add('moveRight', ['moveRight'], 1, true);
             slime.animations.add('dead', ['dead'], 1, true);
@@ -89685,7 +89681,7 @@ var state = {
 
         var fly;
         for (i = 0; i < 10; i += 1) {
-            fly = flies.create(i * 500 + Math.random() * 200, game.world.height - 500 * Math.random(), 'fly', 'flyLeft1');
+            fly = flies.create(i * 500 + Math.random() * 200, Math.random() * 600, 'fly', 'flyLeft1');
             fly.body.bounce.y = 0;
             fly.body.collideWorldBounds = true;
             fly.animations.add('flyLeft', ['flyLeft1', 'flyLeft2'], 10, true);
@@ -89703,7 +89699,7 @@ var state = {
 
     killHero: function(player) {
         player.x = 32;
-        player.y = game.world.height - 180;   
+        player.y = game.world.height - 280;   
         this.score = 0;
         scoreText.text = 'Score: ' + this.score;
     },
@@ -89713,6 +89709,10 @@ var state = {
             return true;
         }
         return false;
+    },
+
+    destroyObject: function(object, bla) {
+        object.kill();
     },
 
     killCritter: function(player, critter) {
@@ -89729,57 +89729,70 @@ var state = {
     },
 
     handleCollisions: function() {
-        game.physics.arcade.collide(player, platforms);
-        game.physics.arcade.collide(coins, platforms);
+        game.physics.arcade.collide(player, collisionLayer);
+        game.physics.arcade.collide(coins, collisionLayer);
         game.physics.arcade.overlap(player, coins, this.collectCoin, null, this);
-        game.physics.arcade.collide(slimes, platforms);
-        game.physics.arcade.collide(flies, platforms);
-        game.physics.arcade.overlap(player, flies, this.killCritter, this.isOnTop, this);
+        game.physics.arcade.collide(slimes, collisionLayer);
+        game.physics.arcade.collide(flies, collisionLayer);
+        game.physics.arcade.overlap(player, flies, this.killCritter, function(player, critter) {
+                if (critter.dead) return false;
+                return this.isOnTop(player, critter);
+            }, this);
         game.physics.arcade.overlap(player, flies, this.killHero, function(player, critter) {
                 if (critter.dead) return false;
                 return (!this.isOnTop(player, critter));
             }, this);
 
-        game.physics.arcade.overlap(player, slimes, this.killCritter, this.isOnTop, this);
+        game.physics.arcade.overlap(player, slimes, this.killCritter, function(player, critter) {
+                if (critter.dead) return false;
+                return this.isOnTop(player, critter);
+            }, this);
         game.physics.arcade.overlap(player, slimes, this.killHero, function(player, critter) {
                 if (critter.dead) return false;
                 return (!this.isOnTop(player, critter));
             }, this);
+
+        game.physics.arcade.overlap(player, liquids, this.killHero, null, this);
+        game.physics.arcade.overlap(coins, liquids, this.destroyObject, null, this);
+        game.physics.arcade.overlap(flies, liquids, this.destroyObject, null, this);
+        game.physics.arcade.overlap(slimes, liquids, this.destroyObject, null, this);
     },
 
     handlePlayerInput: function() {
         player.body.velocity.x = 0;
 
         if (cursors.left.isDown) {
-            player.body.velocity.x = -350;
-            if (player.body.touching.down) {
+            player.body.velocity.x = -450;
+            if (player.body.onFloor()) {
                 player.animations.play('walkLeft');
             } else {
                 player.animations.play('jumpLeft');
             }
         } else if (cursors.right.isDown) {
-            player.body.velocity.x = 350;
-            if (player.body.touching.down) {
+            player.body.velocity.x = 450;
+            if (player.body.onFloor()) {
                 player.animations.play('walkRight');
             } else {
                 player.animations.play('jumpRight');
             }
         } else {
-            if (player.body.touching.down) {
+            if (player.body.onFloor()) {
                 player.animations.stop(null, true);
                 player.animations.play('front');
             }
         }
 
-        if (cursors.up.isDown && player.body.touching.down) {
+        if (cursors.up.isDown && player.body.onFloor()) {
             player.animations.play('jumpRight');
-            player.body.velocity.y = -500;
+            player.body.velocity.y = -700;
         }
     },
 
     animateSlime: function(slime, time) {
         slime.body.velocity.x = 0;
-        if (slime.dead) return;
+        if (slime.dead) {
+            return;
+        }
         if (time % 300 < 150) {
             slime.body.velocity.x = 150;
             slime.animations.play('moveRight');
@@ -89792,7 +89805,9 @@ var state = {
     animateFly: function(fly, time) {
         fly.body.velocity.x = 0;
         fly.body.velocity.y = 0;
-        if (fly.dead) return;
+        if (fly.dead) {
+            return;
+        }
 
         var magic = time % 500;
         if (magic  < 250) {
@@ -89813,11 +89828,13 @@ var state = {
 
     preload: function() {
         game.stage.backgroundColor = '#80E0ED'
-        game.load.image('ground', '../assets/ground.png');
-        game.load.image('coinGold', '../assets/coinGold.png');
-        game.load.atlasJSONHash('slime', '../assets/slime.png', '../assets/slime.json');
-        game.load.atlasJSONHash('hero', '../assets/hero.png', '../assets/hero.json');
-        game.load.atlasJSONHash('fly', '../assets/fly.png', '../assets/fly.json');
+        game.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('levelTileset', 'assets/kennieTileset.png');
+        game.load.image('lava', 'assets/lava.png');
+        game.load.image('coinGold', 'assets/coinGold.png');
+        game.load.atlasJSONHash('slime', 'assets/slime.png', 'assets/slime.json');
+        game.load.atlasJSONHash('hero', 'assets/hero.png', 'assets/hero.json');
+        game.load.atlasJSONHash('fly', 'assets/fly.png', 'assets/fly.json');
     },
     create: function(){
         this.initWorld();
